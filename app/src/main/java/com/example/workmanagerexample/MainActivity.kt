@@ -10,13 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.work.BackoffPolicy
-import androidx.work.OneTimeWorkRequestBuilder
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
 import com.example.workmanagerexample.ui.theme.WorkManagerExampleTheme
-import com.example.workmanagerexample.worker.CustomWorker
-import java.time.Duration
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,27 +21,27 @@ class MainActivity : ComponentActivity() {
 //        val notificationManager = getSystemService(NotificationManager::class.java)
 //        notificationManager.createNotificationChannel(channel)
 
-        val workerRequestOneTime = OneTimeWorkRequestBuilder<CustomWorker>()
-            .setInitialDelay(Duration.ofSeconds(10))
-            .setBackoffCriteria(
-                BackoffPolicy.LINEAR,
-                Duration.ofSeconds(15)
-            )
-            .build()
+//        val workerRequestOneTime = OneTimeWorkRequestBuilder<CustomWorker>()
+//            .setInitialDelay(Duration.ofSeconds(TIME_DURATION))
+//            .setBackoffCriteria(
+//                BackoffPolicy.LINEAR,
+//                Duration.ofSeconds(TIME_DURATION_BACK)
+//            )
+//            .build()
 
 //        val constraints = Constraints.Builder()
 //            .setRequiresCharging(true)
 //            .build()
 
-        val workRequestPeriodic =
-            PeriodicWorkRequestBuilder<CustomWorker>(
-                repeatInterval = Duration.ofSeconds(15)
-            )
+        //       val workRequestPeriodic =
+        //           PeriodicWorkRequestBuilder<CustomWorker>(
+        //               repeatInterval = Duration.ofSeconds(TIME_DURATION_REPEAT)
+        //           )
 //                .setConstraints(constraints)
-                .build()
+        //             .build()
 
-        val listWork = listOf(workRequestPeriodic)
-        val workManager = WorkManager.getInstance(applicationContext).enqueue(listWork)
+//        val listWork = listOf(workRequestPeriodic)
+//        val workManager = WorkManager.getInstance(applicationContext).enqueue(listWork)
 
         setContent {
             WorkManagerExampleTheme {
@@ -60,6 +54,12 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    companion object {
+        const val TIME_DURATION = 10L
+        const val TIME_DURATION_REPEAT = 15L
+        const val TIME_DURATION_BACK = 15L
     }
 }
 
