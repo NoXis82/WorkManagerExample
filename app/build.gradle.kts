@@ -61,6 +61,9 @@ dependencies {
     implementation(libs.androidx.material3)
 
     implementation(libs.androidx.work)
+    implementation(libs.coil)
+    implementation(libs.retrofit)
+    implementation(libs.runtime.livedata)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
