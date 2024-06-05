@@ -1,9 +1,12 @@
 package com.example.workmanagerexample
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,9 +36,25 @@ import com.example.workmanagerexample.worker.ColorFilterWorker
 import com.example.workmanagerexample.worker.DownloadWorker
 
 class MainActivity : ComponentActivity() {
+
+    private var service: DownloadNotificationService? = null
+
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            // Can post notifications.
+            service = DownloadNotificationService(applicationContext)
+        } else {
+            Toast.makeText(this, "Notification not permission", Toast.LENGTH_SHORT).show()
+            // Inform user that that your app will not show notifications.
+        }
+    }
+
     @SuppressLint("UnrememberedMutableState")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
         val downloadRequest = OneTimeWorkRequestBuilder<DownloadWorker>()
             .setConstraints(
                 Constraints.Builder()
@@ -85,6 +104,7 @@ class MainActivity : ComponentActivity() {
                     }
                     Button(
                         onClick = {
+                            //    service?.showNotification()
                             workManager
                                 .beginUniqueWork(
                                     "download",

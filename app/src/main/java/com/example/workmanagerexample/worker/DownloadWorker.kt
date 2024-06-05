@@ -22,6 +22,7 @@ class DownloadWorker(
     private val context: Context,
     private val workerParameters: WorkerParameters,
 ) : CoroutineWorker(context, workerParameters) {
+
     override suspend fun doWork(): Result {
         startForegroundService()
         delay(5000)
@@ -68,7 +69,7 @@ class DownloadWorker(
             ForegroundInfo(
                 Random.nextInt(),
                 NotificationCompat.Builder(context, "download_channel")
-                    .setSmallIcon(R.drawable.ic_launcher_background)
+                    .setSmallIcon(R.drawable.ic_launcher_foreground)
                     .setContentText("Downloading...")
                     .setContentTitle("Download in progress")
                     .build()
